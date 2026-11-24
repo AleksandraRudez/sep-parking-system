@@ -76,6 +76,16 @@ public class SubscriptionService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<PaymentMethod> activeMethods(UUID merchantId) {
+        return subscriptions.findByMerchantId(merchantId).stream()
+                .filter(MerchantSubscription::isActive)
+                .map(MerchantSubscription::getPaymentMethod)
+                .filter(PaymentMethod::isEnabled)
+                .sorted(java.util.Comparator.comparing(PaymentMethod::getId))
+                .toList();
+    }
+
     public PaymentMethod requireEnabled(String code) {
         return paymentMethods.findByCode(normalize(code))
                 .filter(PaymentMethod::isEnabled)

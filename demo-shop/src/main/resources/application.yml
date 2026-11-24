@@ -1,0 +1,16 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: demo-shop
+  # MERCHANT_ID i API kljuc se citaju iz demo-shop/.env (nije na git-u); sablon je u .env.example
+  config:
+    import: optional:file:.env[.properties]
+
+shop:
+  public-url: http://localhost:8070
+  psp:
+    base-url: http://localhost:8081
+    merchant-id: ${PSP_MERCHANT_ID}
+    api-key: ${PSP_API_KEY}

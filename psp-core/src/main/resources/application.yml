@@ -1,5 +1,10 @@
 server:
   port: 8081
+  servlet:
+    session:
+      cookie:
+        # Svaki servis ima svoje ime kolacica; inace se na localhost-u medjusobno brisu (browser ne razlikuje portove)
+        name: PSP_SESSION
 
 spring:
   application:
@@ -31,3 +36,11 @@ psp:
     client-secret: ${PSP_CORE_CLIENT_SECRET}
   dashboard:
     allowed-origin: http://localhost:5173
+  payment:
+    public-url: http://localhost:8081
+    currencies: RSD,EUR,USD
+    checkout-ttl: 30m
+    max-clock-skew: 15m
+  acquirer:
+    base-url: http://localhost:8090
+    hmac-secret: ${BANK_PSP_HMAC_SECRET}

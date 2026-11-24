@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Greška</title>
+  <link rel="stylesheet" th:href="@{/pay/assets/bank.css}">
+</head>
+<body>
+<main class="card">
+  <div class="bank-header">
+    <span class="bank-name">Acquirer Banka</span>
+    <span class="bank-secure">🔒 Sigurna veza</span>
+  </div>
+  <div class="content">
+    <p class="message failure" th:if="${status == 403}">Sesija je istekla ili zahtev nije važeći. Vratite se na prodavnicu i pokušajte ponovo.</p>
+    <p class="message failure" th:if="${status == 404}">Stranica ne postoji.</p>
+    <p class="message failure" th:unless="${status == 403 or status == 404}">Došlo je do greške. Pokušajte ponovo kasnije.</p>
+  </div>
+</main>
+</body>
+</html>

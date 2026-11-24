@@ -8,7 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import rs.sep.psp.common.SecretGenerator;
 import rs.sep.psp.merchant.AdminMerchantController;
+import rs.sep.psp.merchant.MerchantRepository;
 import rs.sep.psp.merchant.MerchantPortalController;
 import rs.sep.psp.merchant.MerchantService;
 import rs.sep.psp.paymentmethod.PaymentMethodRepository;
@@ -35,6 +37,10 @@ class SecurityConfigTest {
     SubscriptionService subscriptionService;
     @MockitoBean
     PaymentMethodRepository paymentMethodRepository;
+    @MockitoBean
+    MerchantRepository merchantRepository;
+    @MockitoBean
+    SecretGenerator secretGenerator;
 
     @Test
     void anonymousIsRejected() throws Exception {
@@ -58,6 +64,19 @@ class SecurityConfigTest {
         mvc.perform(get("/api/merchant/me/payment-methods")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"))))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void merchantApiRequiresApiKey() throws Exception {
+        mvc.perform(get("/api/v1/payments/00000000-0000-0000-0000-000000000000"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void merchantApiRejectsKeycloakTokenWithoutApiKey() throws Exception {
+        mvc.perform(get("/api/v1/payments/00000000-0000-0000-0000-000000000000")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"))))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

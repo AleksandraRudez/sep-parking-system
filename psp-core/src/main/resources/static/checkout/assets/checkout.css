@@ -1,0 +1,61 @@
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --border: #e2e5ea;
+  --text: #1d2330;
+  --muted: #667085;
+  --primary: #2f5bd3;
+  --primary-hover: #2549ad;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.brand { font-size: 0.8rem; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+h1 { font-size: 1.25rem; margin: 4px 0 20px; }
+
+.summary { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 20px; }
+.row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95rem; }
+.row .label { color: var(--muted); }
+.amount { font-size: 1.4rem; font-weight: 700; }
+
+.methods { display: flex; flex-direction: column; gap: 10px; }
+.method {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  font: inherit;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+.method:hover { border-color: var(--primary); background: #f3f6fd; }
+.method .arrow { color: var(--primary); }
+
+.message { color: var(--muted); line-height: 1.5; }
+.secure { margin-top: 20px; font-size: 0.8rem; color: var(--muted); text-align: center; }

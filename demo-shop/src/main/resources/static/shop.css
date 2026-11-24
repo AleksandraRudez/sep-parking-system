@@ -1,0 +1,18 @@
+:root { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: #1d2330; }
+body { margin: 0; background: #fafafa; }
+header { background: #7a3e9d; color: #fff; padding: 14px 24px; font-weight: 700; }
+main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+.card { background: #fff; border: 1px solid #e4e4e7; border-radius: 8px; padding: 20px; margin-bottom: 16px; overflow-x: auto; }
+h2 { margin: 0 0 12px; font-size: 1.1rem; }
+form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; }
+input, select { font: inherit; padding: 8px 10px; border: 1px solid #d4d4d8; border-radius: 6px; }
+button, .button { font: inherit; font-weight: 600; padding: 9px 18px; border: none; border-radius: 6px; background: #7a3e9d; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; }
+th { color: #71717a; font-size: 0.8rem; text-transform: uppercase; }
+.status { font-weight: 600; }
+.status.SUCCESS { color: #067647; }
+.status.FAILED, .status.ERROR, .status.GRESKA, .status.EXPIRED { color: #b42318; }
+.error { background: #fdecea; color: #a12a22; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
+.muted { color: #71717a; }

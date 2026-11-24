@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plaćanje karticom</title>
+  <link rel="stylesheet" th:href="@{/pay/assets/bank.css}">
+</head>
+<body>
+<main class="card">
+  <div class="bank-header">
+    <span class="bank-name">Acquirer Banka</span>
+    <span class="bank-secure">🔒 Sigurna veza</span>
+  </div>
+  <div class="content">
+    <div class="summary">
+      <div class="row"><span class="label">Prodavac</span><span th:text="${payment.merchant.name}">Parking</span></div>
+      <div class="row">
+        <span class="label">Iznos</span>
+        <span class="amount" th:text="${#numbers.formatDecimal(payment.amount, 1, 'POINT', 2, 'COMMA')} + ' ' + ${payment.currency}">200,00 RSD</span>
+      </div>
+      <div class="row">
+        <span class="label">Link važi do</span>
+        <span th:text="${validUntil}">12:00</span>
+      </div>
+    </div>
+
+    <div class="logos" aria-label="Prihvatamo">
+      <svg viewBox="0 0 60 36" role="img" aria-label="Visa">
+        <rect width="60" height="36" fill="#fff"/>
+        <text x="30" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" font-style="italic" fill="#1a1f71">VISA</text>
+      </svg>
+      <svg viewBox="0 0 60 36" role="img" aria-label="Mastercard">
+        <rect width="60" height="36" fill="#fff"/>
+        <circle cx="24" cy="18" r="11" fill="#eb001b"/>
+        <circle cx="36" cy="18" r="11" fill="#f79e1b" fill-opacity="0.9"/>
+      </svg>
+    </div>
+
+    <form id="payment-form" method="post" th:action="@{/pay/{id}(id=${payment.id})}" autocomplete="on" novalidate>
+      <div class="field" th:classappend="${errors.containsKey('pan')} ? 'invalid'">
+        <label for="pan">Broj kartice</label>
+        <input id="pan" name="pan" inputmode="numeric" autocomplete="cc-number" maxlength="23"
+               placeholder="1234 5678 9012 3456" required>
+        <span class="error" th:if="${errors.containsKey('pan')}" th:text="${errors.pan}"></span>
+      </div>
+      <div class="field" th:classappend="${errors.containsKey('holderName')} ? 'invalid'">
+        <label for="holderName">Ime na kartici</label>
+        <input id="holderName" name="holderName" autocomplete="cc-name" maxlength="100" th:value="${holderName}" required>
+        <span class="error" th:if="${errors.containsKey('holderName')}" th:text="${errors.holderName}"></span>
+      </div>
+      <div class="split">
+        <div class="field" th:classappend="${errors.containsKey('expiry')} ? 'invalid'">
+          <label for="expiry">Važi do</label>
+          <input id="expiry" name="expiry" inputmode="numeric" autocomplete="cc-exp" maxlength="5"
+                 placeholder="MM/YY" th:value="${expiry}" required>
+          <span class="error" th:if="${errors.containsKey('expiry')}" th:text="${errors.expiry}"></span>
+        </div>
+        <div class="field" th:classappend="${errors.containsKey('cvv')} ? 'invalid'">
+          <label for="cvv">CVV</label>
+          <input id="cvv" name="cvv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="3"
+                 placeholder="123" required>
+          <span class="error" th:if="${errors.containsKey('cvv')}" th:text="${errors.cvv}"></span>
+        </div>
+      </div>
+      <button type="submit">Plati</button>
+    </form>
+    <p class="note">Iznos je određen od strane prodavca i ne može se menjati. Link se može iskoristiti samo jednom.</p>
+  </div>
+</main>
+<script th:src="@{/pay/assets/form.js}"></script>
+</body>
+</html>

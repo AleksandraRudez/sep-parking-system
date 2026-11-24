@@ -44,3 +44,4 @@ dist/
 # Lokalne tajne
 .env
 *.local
+.vite/

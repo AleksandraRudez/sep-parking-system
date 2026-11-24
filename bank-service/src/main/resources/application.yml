@@ -1,0 +1,39 @@
+server:
+  port: 8090
+  servlet:
+    session:
+      cookie:
+        # Svaki servis ima svoje ime kolacica; inace se na localhost-u medjusobno brisu (browser ne razlikuje portove)
+        name: BANK_SESSION
+
+spring:
+  application:
+    name: bank-service
+  # Tajne se citaju iz bank-service/.env (nije na git-u); sablon je u .env.example
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+bank:
+  public-url: http://localhost:8090
+  # Koliko dugo vazi forma za placanje (PAYMENT_URL)
+  payment-url-ttl: 15m
+  # Kljuc za HMAC PAN-a i CVV-a u bazi
+  card-hmac-key: ${BANK_CARD_HMAC_KEY}
+  psp:
+    hmac-secret: ${BANK_PSP_HMAC_SECRET}
+    callback-url: http://localhost:8081/api/acquirer/callback
+    # PSP stranica na koju se kupac vraca posle placanja
+    return-url: http://localhost:8081/checkout/return/card
+  # Kurs banke: koliko RSD vredi jedna jedinica valute
+  exchange-rates:
+    RSD: 1
+    EUR: 117.20
+    USD: 108.50

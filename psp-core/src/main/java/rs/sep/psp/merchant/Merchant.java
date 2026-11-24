@@ -33,6 +33,9 @@ public class Merchant {
     @Embedded
     private MerchantUrls urls;
 
+    /** MERCHANT_ID koji je Acquirer banka dodelila ovom prodavcu (tabela 2 u specifikaciji). */
+    private String acquirerMerchantId;
+
     @Column(nullable = false)
     private boolean active = true;
 
@@ -58,6 +61,10 @@ public class Merchant {
         this.urls = urls;
     }
 
+    public void changeAcquirerMerchantId(String acquirerMerchantId) {
+        this.acquirerMerchantId = acquirerMerchantId;
+    }
+
     public void changeApiKeyHash(String apiKeyHash) {
         this.apiKeyHash = apiKeyHash;
     }
@@ -69,6 +76,7 @@ public class Merchant {
     public String getKeycloakUserId() { return keycloakUserId; }
     public String getApiKeyHash() { return apiKeyHash; }
     public MerchantUrls getUrls() { return urls; }
+    public String getAcquirerMerchantId() { return acquirerMerchantId; }
     public boolean isActive() { return active; }
     public Instant getCreatedAt() { return createdAt; }
 }

@@ -1,0 +1,92 @@
+:root {
+  --bg: #eef2f6;
+  --surface: #ffffff;
+  --border: #d6dde6;
+  --text: #14213d;
+  --muted: #5c6b80;
+  --primary: #0b5d4b;
+  --primary-hover: #084a3c;
+  --error: #b42318;
+  --success: #067647;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+}
+
+.bank-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bank-name { font-weight: 700; letter-spacing: 0.02em; }
+.bank-secure { font-size: 0.8rem; opacity: 0.85; }
+
+.content { padding: 24px; }
+
+.summary { margin-bottom: 20px; }
+.row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95rem; }
+.row .label { color: var(--muted); }
+.amount { font-size: 1.5rem; font-weight: 700; }
+
+.logos { display: flex; gap: 8px; margin-bottom: 18px; }
+.logos svg { height: 28px; width: auto; border: 1px solid var(--border); border-radius: 4px; }
+
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+.field label { font-size: 0.85rem; font-weight: 600; }
+.field input {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 100%;
+}
+.field input:focus { outline: 2px solid #b7d8cf; border-color: var(--primary); }
+.field.invalid input { border-color: var(--error); }
+.field .error { color: var(--error); font-size: 0.8rem; }
+.split { display: flex; gap: 12px; }
+.split .field { flex: 1; }
+
+button, .button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
+button:hover, .button:hover { background: var(--primary-hover); }
+button:disabled { opacity: 0.6; cursor: wait; }
+
+.note { margin-top: 14px; font-size: 0.8rem; color: var(--muted); text-align: center; }
+.message { line-height: 1.5; margin: 0 0 20px; }
+.message.success { color: var(--success); font-weight: 600; }
+.message.failure { color: var(--error); font-weight: 600; }
