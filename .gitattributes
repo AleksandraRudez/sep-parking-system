@@ -1,0 +1,14 @@
+# Git sam odredjuje da li je fajl tekstualni i cuva ga sa LF krajevima redova
+* text=auto
+
+# Windows skripte moraju imati CRLF, inace cmd ne radi ispravno
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Unix skripte moraju imati LF
+mvnw text eol=lf
+*.sh text eol=lf
+
+*.pdf binary
+*.png binary
+*.jpg binary
