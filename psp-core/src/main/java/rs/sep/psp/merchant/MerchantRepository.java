@@ -13,6 +13,8 @@ public interface MerchantRepository extends JpaRepository<Merchant, UUID> {
 
     Optional<Merchant> findByKeycloakUserId(String keycloakUserId);
 
+    Optional<Merchant> findByMerchantId(String merchantId);
+
     /** Zakljucava red klijenta da dve istovremene izmene pretplata ne bi zaobisle pravilo "bar jedna aktivna". */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select m from Merchant m where m.keycloakUserId = :keycloakUserId")

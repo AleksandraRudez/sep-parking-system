@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { adminApi } from '../api'
 import { Alert } from '../components/Alert'
 import { Modal } from '../components/Modal'
@@ -13,6 +13,7 @@ export function AdminPage() {
   const [error, setError] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [created, setCreated] = useState<MerchantCreated | null>(null)
+  const [acquirerFor, setAcquirerFor] = useState<Merchant | null>(null)
 
   async function load() {
     try {
@@ -58,6 +59,7 @@ export function AdminPage() {
                 <th>MERCHANT_ID</th>
                 <th>Email</th>
                 <th>Aktivni načini plaćanja</th>
+                <th>Banka (MERCHANT_ID)</th>
                 <th>Registrovan</th>
               </tr>
             </thead>
@@ -76,6 +78,12 @@ export function AdminPage() {
                       </span>
                     ))}
                   </td>
+                  <td>
+                    {m.acquirerMerchantId && <code>{m.acquirerMerchantId}</code>}{' '}
+                    <button className="secondary small" onClick={() => setAcquirerFor(m)}>
+                      {m.acquirerMerchantId ? 'Izmeni' : 'Poveži'}
+                    </button>
+                  </td>
                   <td>{new Date(m.createdAt).toLocaleDateString('sr-RS')}</td>
                 </tr>
               ))}
@@ -92,6 +100,19 @@ export function AdminPage() {
             onCreated={result => {
               setShowForm(false)
               setCreated(result)
+              load()
+            }}
+          />
+        </Modal>
+      )}
+
+      {acquirerFor && (
+        <Modal title="Povezivanje sa bankom" onClose={() => setAcquirerFor(null)}>
+          <AcquirerForm
+            merchant={acquirerFor}
+            onCancel={() => setAcquirerFor(null)}
+            onSaved={() => {
+              setAcquirerFor(null)
               load()
             }}
           />
@@ -117,5 +138,48 @@ export function AdminPage() {
         </Modal>
       )}
     </section>
+  )
+}
+
+/** MERCHANT_ID koji je Acquirer banka dodelila klijentu; potreban za plaćanje karticom i QR kodom. */
+function AcquirerForm({ merchant, onCancel, onSaved }: { merchant: Merchant; onCancel: () => void; onSaved: () => void }) {
+  const [value, setValue] = useState(merchant.acquirerMerchantId ?? '')
+  const [error, setError] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+
+  async function submit(e: FormEvent) {
+    e.preventDefault()
+    setSaving(true)
+    setError(null)
+    try {
+      await adminApi.setAcquirer(merchant.id, value)
+      onSaved()
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <form onSubmit={submit}>
+      <p className="muted">
+        MERCHANT_ID koji je banka dodelila klijentu <strong>{merchant.name}</strong>. Bez njega klijent ne može da
+        prima plaćanja karticom.
+      </p>
+      <Alert kind="error" message={error} />
+      <label className="field">
+        <span className="label">MERCHANT_ID u banci</span>
+        <input required maxLength={32} placeholder="npr. ACQ-1001" value={value} onChange={e => setValue(e.target.value)} />
+      </label>
+      <div className="actions">
+        <button type="button" className="secondary" onClick={onCancel}>
+          Otkaži
+        </button>
+        <button type="submit" disabled={saving}>
+          {saving ? 'Čuvanje...' : 'Sačuvaj'}
+        </button>
+      </div>
+    </form>
   )
 }

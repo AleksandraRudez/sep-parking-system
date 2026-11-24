@@ -37,6 +37,8 @@ export const adminApi = {
   merchants: () => request<Merchant[]>('GET', '/api/admin/merchants'),
   register: (req: RegisterMerchantRequest) => request<MerchantCreated>('POST', '/api/admin/merchants', req),
   paymentMethods: () => request<PaymentMethod[]>('GET', '/api/admin/payment-methods'),
+  setAcquirer: (id: string, acquirerMerchantId: string) =>
+    request<Merchant>('PUT', `/api/admin/merchants/${id}/acquirer`, { acquirerMerchantId }),
 }
 
 export const merchantApi = {

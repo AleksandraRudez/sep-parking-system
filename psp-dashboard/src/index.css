@@ -370,3 +370,8 @@ tbody tr:last-child td {
     flex-direction: column;
   }
 }
+
+button.small {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}

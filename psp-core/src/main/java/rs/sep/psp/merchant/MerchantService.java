@@ -18,6 +18,7 @@ import rs.sep.psp.paymentmethod.SubscriptionService;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @Service
 public class MerchantService {
@@ -101,6 +102,15 @@ public class MerchantService {
     public MerchantResponse updateUrls(String keycloakUserId, UpdateMerchantUrlsRequest req) {
         Merchant merchant = byKeycloakUser(keycloakUserId);
         merchant.changeUrls(new MerchantUrls(req.successUrl(), req.failedUrl(), req.errorUrl(), req.webhookUrl()));
+        return MerchantResponse.of(merchant, subscriptionService.activeCodes(merchant.getId()));
+    }
+
+    /** Super admin povezuje klijenta sa MERCHANT_ID-jem koji mu je dodelila Acquirer banka. */
+    @Transactional
+    public MerchantResponse changeAcquirerMerchantId(UUID id, String acquirerMerchantId) {
+        Merchant merchant = merchants.findById(id)
+                .orElseThrow(() -> BusinessException.notFound("Klijent ne postoji"));
+        merchant.changeAcquirerMerchantId(acquirerMerchantId.trim());
         return MerchantResponse.of(merchant, subscriptionService.activeCodes(merchant.getId()));
     }
 

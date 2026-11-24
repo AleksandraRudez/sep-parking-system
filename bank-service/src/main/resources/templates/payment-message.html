@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta th:if="${returnUrl}" http-equiv="refresh" th:content="'5;url=' + ${returnUrl}">
+  <title>Plaćanje karticom</title>
+  <link rel="stylesheet" th:href="@{/pay/assets/bank.css}">
+</head>
+<body>
+<main class="card">
+  <div class="bank-header">
+    <span class="bank-name">Acquirer Banka</span>
+    <span class="bank-secure">🔒 Sigurna veza</span>
+  </div>
+  <div class="content">
+    <p class="message" th:classappend="${success == null} ? '' : (${success} ? 'success' : 'failure')" th:text="${message}">Poruka</p>
+    <a class="button" th:if="${returnUrl}" th:href="${returnUrl}">Nazad na prodavca</a>
+    <p class="note" th:if="${returnUrl}">Automatski povratak za 5 sekundi.</p>
+  </div>
+</main>
+</body>
+</html>

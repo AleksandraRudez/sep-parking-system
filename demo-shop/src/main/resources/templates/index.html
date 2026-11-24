@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo Shop</title>
+  <link rel="stylesheet" th:href="@{/shop.css}">
+</head>
+<body>
+<header>Demo Shop · test prodavac</header>
+<main>
+  <div class="error" th:if="${error}" th:text="${error}"></div>
+
+  <div class="card">
+    <h2>Nova kupovina</h2>
+    <form method="post" th:action="@{/orders}">
+      <label>Opis
+        <input name="description" value="Parking karta - Zona 1, 2h" required>
+      </label>
+      <label>Iznos
+        <input name="amount" type="number" step="0.01" min="0.01" value="200.00" required>
+      </label>
+      <label>Valuta
+        <select name="currency">
+          <option>RSD</option>
+          <option>EUR</option>
+          <option>USD</option>
+        </select>
+      </label>
+      <button type="submit">Kupi</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Narudžbine</h2>
+    <p class="muted" th:if="${#lists.isEmpty(orders)}">Još nema narudžbina.</p>
+    <table th:unless="${#lists.isEmpty(orders)}">
+      <thead>
+      <tr><th>Nalog</th><th>Opis</th><th>Iznos</th><th>Status (potvrda PSP-a)</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="o : ${orders}">
+        <td th:text="${o.orderId}"></td>
+        <td th:text="${o.description}"></td>
+        <td th:text="${o.amount} + ' ' + ${o.currency}"></td>
+        <td class="status" th:classappend="${o.status}" th:text="${o.status}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <p class="muted">Osvežite stranicu da vidite najnoviji status.</p>
+  </div>
+</main>
+</body>
+</html>

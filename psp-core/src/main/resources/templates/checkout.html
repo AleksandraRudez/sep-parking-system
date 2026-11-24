@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plaćanje</title>
+  <link rel="stylesheet" th:href="@{/checkout/assets/checkout.css}">
+</head>
+<body>
+<main class="card">
+  <div class="brand">PSP · Sigurno plaćanje</div>
+  <h1>Izaberite način plaćanja</h1>
+
+  <div class="summary">
+    <div class="row"><span class="label">Prodavac</span><span th:text="${checkout.merchantName}">Parking</span></div>
+    <div class="row"><span class="label">Broj naloga</span><span th:text="${checkout.merchantOrderId}">123</span></div>
+    <div class="row">
+      <span class="label">Iznos</span>
+      <span class="amount" th:text="${#numbers.formatDecimal(checkout.amount, 1, 'POINT', 2, 'COMMA')} + ' ' + ${checkout.currency}">200,00 RSD</span>
+    </div>
+  </div>
+
+  <p class="message" th:if="${#lists.isEmpty(checkout.methods)}">
+    Prodavac trenutno nema dostupnih načina plaćanja.
+  </p>
+
+  <form th:action="@{/checkout/{id}(id=${checkout.paymentId})}" method="post" class="methods">
+    <button th:each="m : ${checkout.methods}" class="method" type="submit" name="method" th:value="${m.code}">
+      <span th:text="${m.name}">Platna kartica</span>
+      <span class="arrow">→</span>
+    </button>
+  </form>
+
+  <p class="secure">Podatke o plaćanju unosite direktno kod servisa za plaćanje. Prodavac ih ne vidi.</p>
+</main>
+</body>
+</html>

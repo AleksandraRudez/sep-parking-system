@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rezultat plaćanja</title>
+  <link rel="stylesheet" th:href="@{/shop.css}">
+</head>
+<body>
+<header>Demo Shop · test prodavac</header>
+<main>
+  <div class="card">
+    <h2 th:switch="${result}">
+      <span th:case="'success'">✅ Plaćanje je uspešno</span>
+      <span th:case="'failed'">❌ Plaćanje nije uspelo</span>
+      <span th:case="*">⚠️ Došlo je do greške pri plaćanju</span>
+    </h2>
+    <div th:if="${order}">
+      <p>Nalog: <strong th:text="${order.orderId}"></strong> · <span th:text="${order.description}"></span></p>
+      <p>Status potvrđen od PSP-a: <span class="status" th:classappend="${order.status}" th:text="${order.status}"></span></p>
+    </div>
+    <a class="button" th:href="@{/}">Nazad u prodavnicu</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta th:if="${refresh}" http-equiv="refresh" content="3">
+  <title>Plaćanje</title>
+  <link rel="stylesheet" th:href="@{/checkout/assets/checkout.css}">
+</head>
+<body>
+<main class="card">
+  <div class="brand">PSP · Sigurno plaćanje</div>
+  <h1>Plaćanje</h1>
+  <p class="message" th:text="${message}">Poruka</p>
+</main>
+</body>
+</html>

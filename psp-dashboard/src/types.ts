@@ -11,6 +11,7 @@ export interface Merchant {
   name: string
   email: string
   urls: MerchantUrls
+  acquirerMerchantId: string | null
   active: boolean
   createdAt: string
   activePaymentMethods: string[]

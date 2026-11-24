@@ -13,12 +13,13 @@ public record MerchantResponse(
         String name,
         String email,
         MerchantUrls urls,
+        String acquirerMerchantId,
         boolean active,
         Instant createdAt,
         List<String> activePaymentMethods) {
 
     public static MerchantResponse of(Merchant m, List<String> activePaymentMethods) {
         return new MerchantResponse(m.getId(), m.getMerchantId(), m.getName(), m.getEmail(), m.getUrls(),
-                m.isActive(), m.getCreatedAt(), activePaymentMethods);
+                m.getAcquirerMerchantId(), m.isActive(), m.getCreatedAt(), activePaymentMethods);
     }
 }
