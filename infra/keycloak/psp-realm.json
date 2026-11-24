@@ -1,0 +1,62 @@
+{
+  "realm": "psp",
+  "enabled": true,
+  "displayName": "PSP",
+  "passwordPolicy": "length(12) and upperCase(1) and lowerCase(1) and digits(1) and specialChars(1) and notUsername",
+  "bruteForceProtected": true,
+  "failureFactor": 6,
+  "roles": {
+    "realm": [
+      { "name": "SUPER_ADMIN", "description": "Upravlja PSP-om i registruje klijente" },
+      { "name": "MERCHANT", "description": "Klijent PSP-a (npr. parking sistem)" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "psp-dashboard",
+      "name": "PSP Dashboard",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      }
+    },
+    {
+      "clientId": "psp-core",
+      "name": "PSP Core (servisni nalog)",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "${PSP_CORE_CLIENT_SECRET}",
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true
+    }
+  ],
+  "users": [
+    {
+      "username": "superadmin",
+      "email": "superadmin@psp.local",
+      "firstName": "Super",
+      "lastName": "Admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "${PSP_SUPERADMIN_PASSWORD}", "temporary": false }
+      ],
+      "realmRoles": ["SUPER_ADMIN"]
+    },
+    {
+      "username": "service-account-psp-core",
+      "enabled": true,
+      "serviceAccountClientId": "psp-core",
+      "clientRoles": {
+        "realm-management": ["manage-users", "view-users", "view-realm"]
+      }
+    }
+  ]
+}

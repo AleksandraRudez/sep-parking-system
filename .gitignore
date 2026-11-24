@@ -22,3 +22,25 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Maven / Gradle
+target/
+build/
+.mvn/wrapper/maven-wrapper.jar
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Lokalne tajne
+.env
+*.local
